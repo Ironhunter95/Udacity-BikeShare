@@ -34,6 +34,7 @@ def chooseMonth():
         while Month.lower() not in Months:
             print("You have chosen an invalid Month, please choose again.")
             Month = input("Which month would you like to choose (type the name of the month in full)")
+        return Month
     else:
         print("Please choose a valid option")
         chooseMonth()
@@ -46,10 +47,11 @@ def chooseDay():
         return None
     elif confirm.lower() == 'confirm':
         # CHOOSING WHICH DAY
-        Day = input("Which day would you like to choose (type the name of the month in full)\n")
+        Day = input("Which day would you like to choose (type the name of the day in full)\n")
         while Day.lower() not in Days:
             print("You have chosen an invalid Day, please choose again.")
-            Day = input("Which month would you like to choose (type the name of the month in full)\n")
+            Day = input("Which Day would you like to choose (type the name of the day in full)\n")
+        return Day
     else:
         print("Please choose a  valid option")
         chooseDay()
@@ -74,12 +76,6 @@ def get_filters():
     else:
         print("Invalid option, the program will now restart!\n")
         get_filters()
-    # TO DO: get user input for city (chicago, new york city, washington). HINT: Use a while loop to handle invalid inputs
-
-    # TO DO: get user input for month (all, january, february, ... , june)
-
-    # TO DO: get user input for day of week (all, monday, tuesday, ... sunday)
-
     print('-' * 40)
     return City,Month,Day
 
@@ -182,7 +178,7 @@ def user_stats(df):
     genders = df['Gender'].value_counts()
     print(genders)
     # TO DO: Display earliest, most recent, and most common year of birth
-    df.sort_values(by=['Birth Year'])
+    print(df.sort_values(by=['Birth Year']))
     Earliest = df['Birth Year'].iloc[0]
     print("Earliest year of Birth is: ",int(Earliest))
     Recent = df['Birth Year'].iloc[-1]
@@ -196,7 +192,8 @@ def user_stats(df):
 def main():
     while True:
         city, month, day = get_filters()
-        df = load_data(city, month, day)
+        df = load_data(city,month,day)
+        #df = load_data('chicago', 'february', 'sunday')
 
         time_stats(df)
         station_stats(df)
@@ -209,9 +206,4 @@ def main():
 
 
 if __name__ == "__main__":
-    #main()
-    df = load_data("chicago", "march" ,"monday")
-    time_stats(df)
-    station_stats(df)
-    trip_duration_stats(df)
-    user_stats(df)
+    main()

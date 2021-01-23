@@ -15,35 +15,44 @@ def chooseCity():
     # Check if this is a valid city
     while city.lower() not in Cities:
         print("You have chosen an unavailable City, please choose again.")
-        city = input("Please choose one of these three cities: Chicago, Washington, or New York")
+        city = input("Please choose one of these three cities: Chicago, Washington, or New York\n")
     # City Confirmation
-    confirm = input(
-        f"You have chosen to see data for {city}, please type 'Confirm' to confirm your choice or 'Reject' to choose again.")
+    confirm = input(f"You have chosen to see data for {city}, please type 'Confirm' to confirm your choice or 'Reject' to choose again.\n")
     if confirm.lower() == 'reject':
         chooseCity()
     return city
-
-
 def chooseMonth():
     # Months available
     Months = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october',
               'november', 'december']
-    print("You have chosen to filter by Month, if its not the case, please restart the program.")
-    # CHOOSING WHICH MONTH
-    Month = input("Which month would you like to choose (type the name of the month in full)")
-    while Month.lower() not in Months:
-        print("You have chosen an invalid Month, please choose again.")
-        Month = input("Which month would you like to choose (type the name of the month in full)")
+    confirm = input("You have chosen to filter by Month, please type 'Confirm' to confirm your choice or 'Reject' to choose again.\n")
+    if confirm.lower() == 'reject':
+        return None
+    elif confirm.lower() == 'confirm':
+        # CHOOSING WHICH MONTH
+        Month = input("Which month would you like to choose (type the name of the month in full)\n")
+        while Month.lower() not in Months:
+            print("You have chosen an invalid Month, please choose again.")
+            Month = input("Which month would you like to choose (type the name of the month in full)")
+    else:
+        print("Please choose a valid option")
+        chooseMonth()
 
 def chooseDay():
     # Days Available
     Days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
-    print("You have chosen to filter by day, if its not the case, please restart the program.")
-    # CHOOSING WHICH MONTH
-    Day = input("Which day would you like to choose (type the name of the month in full)")
-    while Day.lower() not in Days:
-        print("You have chosen an invalid Day, please choose again.")
-        Day = input("Which month would you like to choose (type the name of the month in full)")
+    confirm = input("You have chosen to filter by day, please type 'Confirm' to confirm your choice or 'Reject' to choose again.\n")
+    if confirm.lower() == 'reject':
+        return None
+    elif confirm.lower() == 'confirm':
+        # CHOOSING WHICH DAY
+        Day = input("Which day would you like to choose (type the name of the month in full)\n")
+        while Day.lower() not in Days:
+            print("You have chosen an invalid Day, please choose again.")
+            Day = input("Which month would you like to choose (type the name of the month in full)\n")
+    else:
+        print("Please choose a  valid option")
+        chooseDay()
 def get_filters():
     """
     Returns:
@@ -52,15 +61,25 @@ def get_filters():
         (str) day - name of the day of week to filter by, or "all" to apply no day filter
     """
     print('Hello! Let\'s explore some US bikeshare data!')
-
+    #Choose City
+    City = chooseCity()
     # Choose What to filter by
-    choice = input("Would you like to filter the data by month, day, both or none?")
-    # CHOOSING THE FILTER TYPE
-    # Month
+    choice = input("Would you like to filter the data by month, day, both or none?\n")
     if choice.lower() == "month":
-        chooseMonth()
+        Month = chooseMonth()
+        Day = "all"
     elif choice.lower() == "day":
-       chooseDay()
+       Day = chooseDay()
+       Month = "all"
+    elif choice.lower()=="both":
+        Month = chooseMonth()
+        Day = chooseDay()
+    elif choice.lower() =="none":
+        Month = "all"
+        Day = "all"
+    else:
+        print("Invalid option, the program will now restart!\n")
+        get_filters()
     # TO DO: get user input for city (chicago, new york city, washington). HINT: Use a while loop to handle invalid inputs
 
     # TO DO: get user input for month (all, january, february, ... , june)
@@ -68,7 +87,7 @@ def get_filters():
     # TO DO: get user input for day of week (all, monday, tuesday, ... sunday)
 
     print('-' * 40)
-    return city, month, day
+    return City, Month, Day
 
 
 def load_data(city, month, day):
@@ -164,5 +183,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
-getfilter()
+    #main()
+    get_filters()

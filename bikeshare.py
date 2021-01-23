@@ -89,7 +89,7 @@ def load_data(city, month, day):
     # load data file into a dataframe
     df = pd.read_csv(CITY_DATA[city])
     #Rename Start and End station to remove spaces
-    df = df.rename(columns={'Start Station': 'start_station', 'End Station': 'end_station'})
+    df = df.rename(columns={'Start Station': 'start_station', 'End Station': 'end_station', 'Trip Duration': 'trip_duration'})
     # convert the Start Time column to datetime
     df['Start Time'] = pd.to_datetime(df['Start Time'])
     # extract month and day of week from Start Time to create new columns
@@ -158,9 +158,11 @@ def trip_duration_stats(df):
     start_time = time.time()
 
     # TO DO: display total travel time
-
+    sum = df['trip_duration'].sum()
+    print("Total travel time is: ",sum)
+    average = df['trip_duration'].mean()
     # TO DO: display mean travel time
-
+    print("Average Trip duration is : ", average)
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-' * 40)
 
@@ -201,3 +203,4 @@ if __name__ == "__main__":
     df = load_data("chicago", "march" ,"monday")
     time_stats(df)
     station_stats(df)
+    trip_duration_stats(df)

@@ -175,13 +175,15 @@ def user_stats(df):
     print(user_types)
     # TO DO: Display counts of gender
     # print value counts for each gender
-    genders = df['Gender'].value_counts()
-    print(genders)
+    try:
+        genders = df['Gender'].value_counts()
+        print(f"{genders}")
+    except:
+        print("No Gender data available")
     # TO DO: Display earliest, most recent, and most common year of birth
-    print(df.sort_values(by=['Birth Year']))
-    Earliest = df['Birth Year'].iloc[0]
+    Earliest = df['Birth Year'].min()
     print("Earliest year of Birth is: ",int(Earliest))
-    Recent = df['Birth Year'].iloc[-1]
+    Recent = df['Birth Year'].max()
     print("Most recent year of Birth is: ", int(Recent))
     MCYOB = df['Birth Year'].mode()[0]
     print("Most common year of Birth is: ",int(MCYOB))

@@ -7,7 +7,7 @@ CITY_DATA = {'chicago': 'chicago.csv',
              'new york': 'new_york_city.csv',
              'washington': 'washington.csv'}
 
-
+CityX = None
 def chooseCity():
     # Cities Available
     Cities = ['chicago', 'washington', 'new york']
@@ -21,6 +21,7 @@ def chooseCity():
     confirm = input(f"You have chosen to see data for {city}, please type 'Confirm' to confirm your choice or 'Reject' to choose again.\n")
     if confirm.lower() == 'reject':
         chooseCity()
+    CityX = city
     return city
 def chooseMonth():
     # Months available
@@ -57,6 +58,9 @@ def chooseDay():
         chooseDay()
 def get_filters():
     print('Hello! Let\'s explore some US bikeshare data!')
+    City = None
+    Day = None
+    Month = None
     #Choose City
     City = chooseCity()
     # Choose What to filter by
@@ -85,7 +89,7 @@ def load_data(city, month, day):
     # load data file into a dataframe
     df = pd.read_csv(CITY_DATA[city])
     #Rename Start and End station to remove spaces
-    df = df.rename(columns={'Start Station': 'start_station', 'End Station': 'end_station', 'Trip Duration': 'trip_duration'})
+    df = df.rename(columns={'Start Station': 'start_station', 'End Station': 'end_station', 'Trip Duration': 'trip_duration', 'Birth Year':'birth_Year'})
     # convert the Start Time column to datetime
     df['Start Time'] = pd.to_datetime(df['Start Time'])
     # extract month and day of week from Start Time to create new columns
@@ -180,13 +184,15 @@ def user_stats(df):
         print(f"{genders}")
     except:
         print("No Gender data available")
-    # TO DO: Display earliest, most recent, and most common year of birth
-    Earliest = df['Birth Year'].min()
-    print("Earliest year of Birth is: ",int(Earliest))
-    Recent = df['Birth Year'].max()
-    print("Most recent year of Birth is: ", int(Recent))
-    MCYOB = df['Birth Year'].mode()[0]
-    print("Most common year of Birth is: ",int(MCYOB))
+    try:
+        Earliest = df.min()['birth_Year']
+        print("Earliest year of Birth is: ",int(Earliest))
+        Recent = df['birth_Year'].max()
+        print("Most recent year of Birth is: ", int(Recent))
+        MCYOB = df['birth_Year'].mode()[0]
+        print("Most common year of Birth is: ",int(MCYOB))
+    except:
+        print("No user age stats available")
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-' * 40)
 

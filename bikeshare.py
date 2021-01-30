@@ -196,6 +196,14 @@ def user_stats(df):
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-' * 40)
 
+def display_data(df):
+    choice = input('\nWould you like to see 5 rows of the trip data? Enter "yes" or "no"\n')
+    start= 0
+    pd.set_option('display.max_columns',30)
+    while (choice.lower()=="yes"):
+        print(df.iloc[start:start+5])
+        start += 5
+        choice = input('Do you wish to continue?: Enter "yes" or "no"\n').lower()
 
 def main():
     while True:
@@ -207,8 +215,8 @@ def main():
         station_stats(df)
         trip_duration_stats(df)
         user_stats(df)
-
-        restart = input('\nWould you like to restart? Enter yes or no.\n')
+        display_data(df)
+        restart = input('\nThis is the end of the program, Would you like to restart? Enter yes or no.\n')
         if restart.lower() != 'yes':
             break
 
